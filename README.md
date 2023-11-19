@@ -5,6 +5,14 @@ This is a message broker that allows you to send messages to a queue and receive
 
 ![Alt text](docs/img.png)
 
+```bash
+type MessageBroker interface {
+	SendMessage(ctx context.Context, message Message, topic string) error
+	ReceiveMessages(ctx context.Context, topic string) (*Message, error)
+	Ack(ctx context.Context) error
+}
+```
+
 ### 📝 Instructions 📝
 
 ### 📥 Installation 📥
