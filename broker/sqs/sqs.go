@@ -48,7 +48,7 @@ func (b *Broker) SendMessage(ctx context.Context, message broker.Message, topic 
 	return nil
 }
 
-func (b *Broker) ReceiveMessages(ctx context.Context, maxMessages int64, topic string) ([]broker.Message, error) {
+func (b *Broker) ReceiveMessages(ctx context.Context, maxMessages int64, topic string) ([]*broker.Message, error) {
 	params := &sqs.ReceiveMessageInput{
 		QueueUrl:            aws.String(topic),
 		MaxNumberOfMessages: int32(maxMessages),
@@ -59,9 +59,9 @@ func (b *Broker) ReceiveMessages(ctx context.Context, maxMessages int64, topic s
 		return nil, err
 	}
 
-	var messages []broker.Message
+	var messages []*broker.Message
 	for _, message := range output.Messages {
-		messages = append(messages, broker.Message{
+		messages = append(messages, &broker.Message{
 			Header: map[string]string{},
 			Body:   []byte(*message.Body),
 		})
